@@ -8,7 +8,10 @@
 #
 
 library(shiny)
+
+# Modules:
 ifelse(file.exists("data/.RData"), load("data/.RData"), source(file = "scripts/clean_data.R"))
+source("scripts/local_similarity.R")
 
 shinyServer(function(input, output) {
    
