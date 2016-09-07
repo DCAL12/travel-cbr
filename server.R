@@ -11,10 +11,12 @@ library(shiny)
 
 # Modules:
 ifelse(file.exists("data/.RData"), load("data/.RData"), source(file = "scripts/clean_data.R"))
-source("scripts/local_similarity.R")
+source("scripts/similarity.R")
+source("scripts/predict.R")
 
 shinyServer(function(input, output) {
    
   # list all cases
-  output$casesTable = renderDataTable(cases)
+  output$allCasesTable = renderDataTable(cases)
+  output$similarCasesTable = renderTable(head(cases))
 })

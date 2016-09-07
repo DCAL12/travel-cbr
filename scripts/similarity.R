@@ -18,6 +18,9 @@ similarity.season = function(allValues, targetValue) {
 }
 
 similarity = function(cases, targetCase, weights = rep(1, length(colnames(targetCase)))) {
+  ## Generate a similarity matrix of new (target) case vs. case-base
+  ## normalised where 1 = exact match, 0 = completely dissimilar
+  
    df = data.frame(sapply(colnames(targetCase), function(attribute) {
      switch (attribute,
              JourneyCode = similarity.int(cases$JourneyCode, targetCase$JourneyCode),
