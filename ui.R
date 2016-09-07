@@ -242,11 +242,13 @@ shinyUI(navbarPage(
     
     wellPanel(
       tags$h2("Similar Cases"),
+      textOutput("similarityHelp"),
       tableOutput("similarCasesTable")
     ),
     
     wellPanel(
-      tags$h2("Predicted Outcome")
+      tags$h2("Predicted Outcome"),
+      textOutput("predictedOutcome")
     )
   )
 ))
