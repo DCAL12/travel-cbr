@@ -15,10 +15,27 @@ source("scripts/similarity.R")
 source("scripts/predict.R")
 
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
    
   # populate KnowledgeBase
   output$allCasesTable = renderDataTable(cases)
+  
+  # provide suggested inputs
+  updateSelectizeInput(session, "HolidayTypeInput", 
+                       choices = levels(cases$HolidayType), 
+                       server = TRUE)
+  updateSelectizeInput(session, "RegionInput", 
+                       choices = levels(cases$Region), 
+                       server = TRUE)
+  updateSelectizeInput(session, "TransportationInput", 
+                       choices = levels(cases$Transportation), 
+                       server = TRUE)
+  updateSelectizeInput(session, "AccommodationInput", 
+                       choices = levels(cases$Accommodation), 
+                       server = TRUE)
+  updateSelectizeInput(session, "HotelInput", 
+                       choices = levels(cases$Hotel), 
+                       server = TRUE)
   
   # predict widget
   observeEvent(input$predictButton, {

@@ -12,13 +12,13 @@ library(shiny)
 # Define UI for application that draws a histogram
 shinyUI(navbarPage(
   title = "Travel CBR",
-  tabPanel("KnowledgeBase", dataTableOutput("allCasesTable")),
-  tabPanel(
-    "Predict",
+  tabPanel("Case Base", dataTableOutput("allCasesTable")),
+  tabPanel("New Case",
     wellPanel(
       helpText(
         "Note: input known new case information",
-        "to the left. Weight each attribute by",
+        "to the left. Fields left blank will be",
+        "ignored. Weight each attribute by",
         "relative importance in predicting the",
         "outcome variable. Select the desired",
         "outcome variable from the drop-down",
@@ -32,10 +32,11 @@ shinyUI(navbarPage(
     wellPanel(
       fluidRow(column(4, tags$h3("New Case:")),
                column(4, tags$h3("Weights:")),
-               column(4, tags$h3("Parameters:"))),
+               column(4, tags$h3("Predict:"))),
       fluidRow(
-        column(3, textInput("HolidayTypeInput",
-                            label = "HolidayType")),
+        column(3, selectizeInput("HolidayTypeInput",
+                            label = "HolidayType", 
+                            choices = NULL)),
         column(
           3,
           offset = 1,
@@ -75,7 +76,7 @@ shinyUI(navbarPage(
             "PriceInput",
             label = "Price",
             min = 0,
-            step = 0.01,
+            step = 1,
             value = 0
           )
         ),
@@ -128,8 +129,9 @@ shinyUI(navbarPage(
                             label = "Predict"))
       ),
       fluidRow(column(
-        3, textInput("RegionInput",
-                     label = "Region")
+        3, selectizeInput("RegionInput",
+                          label = "Region",
+                          choices = NULL)
       ),
       column(
         3,
@@ -140,11 +142,16 @@ shinyUI(navbarPage(
           min = 0,
           max = 1,
           value = 1
+        )),
+        column(4, offset = 1,
+               tags$h3("Predicted Outcome:"),
+               textOutput("predictedOutcome")
         )
-      )),
+      ),
       fluidRow(column(
-        3, textInput("TransportationInput",
-                     label = "Transportation")
+        3, selectizeInput("TransportationInput",
+                          label = "Transportation",
+                          choices = NULL)
       ),
       column(
         3,
@@ -209,8 +216,9 @@ shinyUI(navbarPage(
         )
       )),
       fluidRow(column(
-        3, textInput("AccommodationInput",
-                     label = "Accommodation")
+        3, selectizeInput("AccommodationInput",
+                          label = "Accommodation",
+                          choices = NULL)
       ),
       column(
         3,
@@ -224,8 +232,9 @@ shinyUI(navbarPage(
         )
       )),
       fluidRow(column(
-        3, textInput("HotelInput",
-                     label = "Hotel")
+        3, selectizeInput("HotelInput",
+                          label = "Hotel",
+                          choices = NULL)
       ),
       column(
         3,
@@ -244,11 +253,6 @@ shinyUI(navbarPage(
       tags$h2("Similar Cases"),
       textOutput("similarityHelp"),
       tableOutput("similarCasesTable")
-    ),
-    
-    wellPanel(
-      tags$h2("Predicted Outcome"),
-      textOutput("predictedOutcome")
     )
   )
 ))
